@@ -1,0 +1,586 @@
+{
+  "info": {
+    "name": "Workforce Management API",
+    "description": "Complete API testing collection for the Workforce Management challenge",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "taskId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Welcome & Health",
+      "item": [
+        {
+          "name": "Welcome Message",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Staff Management",
+      "item": [
+        {
+          "name": "Get All Staff",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Get Staff by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/staff/staff-1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "staff", "staff-1"]
+            }
+          }
+        },
+        {
+          "name": "Create New Staff",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Brown\",\n  \"email\": \"alice.brown@company.com\",\n  \"department\": \"Marketing\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "staff"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Task Management - Basic CRUD",
+      "item": [
+        {
+          "name": "Get All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Create Task 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('taskId', response.id);",
+                  "    console.log('Task created with ID:', response.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Process Customer Order #12345\",\n  \"description\": \"Handle customer order and coordinate delivery for premium client\",\n  \"priority\": \"HIGH\",\n  \"assignedStaffId\": \"staff-1\",\n  \"startDate\": \"2025-08-02\",\n  \"dueDate\": \"2025-08-05\",\n  \"createdBy\": \"manager-1\",\n  \"customerReference\": \"CUST-12345\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Create Task 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Inventory Management Review\",\n  \"description\": \"Monthly inventory check and stock reconciliation\",\n  \"priority\": \"MEDIUM\",\n  \"assignedStaffId\": \"staff-2\",\n  \"startDate\": \"2025-08-01\",\n  \"dueDate\": \"2025-08-03\",\n  \"createdBy\": \"manager-2\",\n  \"customerReference\": \"CUST-67890\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Get Task Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Bug Fixes",
+      "item": [
+        {
+          "name": "Bug Fix 1 - Reassign Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/assign-by-ref?customerReference=CUST-12345&newStaffId=staff-2&updatedBy=manager-1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "assign-by-ref"],
+              "query": [
+                {
+                  "key": "customerReference",
+                  "value": "CUST-12345"
+                },
+                {
+                  "key": "newStaffId",
+                  "value": "staff-2"
+                },
+                {
+                  "key": "updatedBy",
+                  "value": "manager-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Bug Fix 2 - Date Range (Excludes Cancelled)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/date-range?startDate=2025-08-01&endDate=2025-08-10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "date-range"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2025-08-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-08-10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Feature 1 - Smart Daily View",
+      "item": [
+        {
+          "name": "Smart Daily Tasks - Today",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/smart-daily?startDate=2025-08-02&endDate=2025-08-02",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "smart-daily"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2025-08-02"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-08-02"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Smart Daily Tasks - This Week",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/smart-daily?startDate=2025-08-01&endDate=2025-08-03",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "smart-daily"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2025-08-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2025-08-03"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Feature 2 - Priority Management",
+      "item": [
+        {
+          "name": "Update Priority to HIGH",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": \"HIGH\",\n  \"updatedBy\": \"manager-1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/priority",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "priority"]
+            }
+          }
+        },
+        {
+          "name": "Update Priority to LOW",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": \"LOW\",\n  \"updatedBy\": \"manager-2\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/priority",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "priority"]
+            }
+          }
+        },
+        {
+          "name": "Get HIGH Priority Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/priority/HIGH",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "priority", "HIGH"]
+            }
+          }
+        },
+        {
+          "name": "Get MEDIUM Priority Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/priority/MEDIUM",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "priority", "MEDIUM"]
+            }
+          }
+        },
+        {
+          "name": "Get LOW Priority Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/priority/LOW",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "priority", "LOW"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Feature 3 - Comments & Activity",
+      "item": [
+        {
+          "name": "Add Comment 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Customer called to confirm delivery address. Updated to 123 Main Street.\",\n  \"userId\": \"staff-1\",\n  \"userName\": \"John Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/comments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "comments"]
+            }
+          }
+        },
+        {
+          "name": "Add Comment 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"Coordinated with logistics team. Delivery scheduled for tomorrow.\",\n  \"userId\": \"staff-2\",\n  \"userName\": \"Jane Smith\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/comments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "comments"]
+            }
+          }
+        },
+        {
+          "name": "Get Task with Full History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Status Management",
+      "item": [
+        {
+          "name": "Update Status to COMPLETED",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/status?status=COMPLETED&updatedBy=staff-1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "COMPLETED"
+                },
+                {
+                  "key": "updatedBy",
+                  "value": "staff-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Status to CANCELLED",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/status?status=CANCELLED&updatedBy=manager-1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CANCELLED"
+                },
+                {
+                  "key": "updatedBy",
+                  "value": "manager-1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Status to ACTIVE",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/{{taskId}}/status?status=ACTIVE&updatedBy=manager-1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "{{taskId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ACTIVE"
+                },
+                {
+                  "key": "updatedBy",
+                  "value": "manager-1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

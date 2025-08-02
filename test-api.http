@@ -1,0 +1,68 @@
+# Workforce Management API Test Scripts
+# Use with VS Code REST Client extension or any HTTP client
+
+### Get Welcome Message
+GET http://localhost:5000/
+Accept: application/json
+
+### Get All Staff (should show pre-loaded staff)
+GET http://localhost:5000/api/staff
+Accept: application/json
+
+### Create a New Task
+POST http://localhost:5000/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Process Customer Order #123",
+  "description": "Handle customer order and coordinate delivery",
+  "priority": "HIGH",
+  "assignedStaffId": "staff-1",
+  "startDate": "2025-08-02",
+  "dueDate": "2025-08-05",
+  "createdBy": "manager-1",
+  "customerReference": "CUST-123"
+}
+
+### Get Task Details (replace {taskId} with actual ID from create response)
+GET http://localhost:5000/api/tasks/{taskId}
+Accept: application/json
+
+### Test Bug Fix 1: Reassign Task by Customer Reference
+POST http://localhost:5000/api/tasks/assign-by-ref?customerReference=CUST-123&newStaffId=staff-2&updatedBy=manager-1
+Accept: application/json
+
+### Test Bug Fix 2: Get Tasks by Date Range (excludes cancelled)
+GET http://localhost:5000/api/tasks/date-range?startDate=2025-08-01&endDate=2025-08-10
+Accept: application/json
+
+### Test Feature 1: Smart Daily View
+GET http://localhost:5000/api/tasks/smart-daily?startDate=2025-08-02&endDate=2025-08-02
+Accept: application/json
+
+### Test Feature 2: Update Task Priority
+PUT http://localhost:5000/api/tasks/{taskId}/priority
+Content-Type: application/json
+
+{
+  "priority": "LOW",
+  "updatedBy": "manager-1"
+}
+
+### Test Feature 2: Get Tasks by Priority
+GET http://localhost:5000/api/tasks/priority/HIGH
+Accept: application/json
+
+### Test Feature 3: Add Comment to Task
+POST http://localhost:5000/api/tasks/{taskId}/comments
+Content-Type: application/json
+
+{
+  "content": "Customer called to confirm delivery address",
+  "userId": "staff-1",
+  "userName": "John Doe"
+}
+
+### Get Updated Task Details (should show activity history and comments)
+GET http://localhost:5000/api/tasks/{taskId}
+Accept: application/json
