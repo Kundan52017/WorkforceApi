@@ -12,6 +12,7 @@
 /home/runner/workspace/src/main/java/com/workforcemgmt/dto/StaffDto.java
 /home/runner/workspace/src/main/java/com/workforcemgmt/service/TaskService.java
 /home/runner/workspace/src/main/java/com/workforcemgmt/exception/GlobalExceptionHandler.java
+/home/runner/workspace/src/main/java/com/workforcemgmt/controller/WelcomeController.java
 /home/runner/workspace/src/main/java/com/workforcemgmt/dto/CreateTaskRequest.java
 /home/runner/workspace/src/main/java/com/workforcemgmt/dto/AddCommentRequest.java
 /home/runner/workspace/src/main/java/com/workforcemgmt/dto/TaskDto.java

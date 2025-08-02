@@ -1,6 +1,7 @@
 com/workforcemgmt/model/TaskStatus.class
 com/workforcemgmt/model/Comment.class
 com/workforcemgmt/controller/StaffController.class
+com/workforcemgmt/controller/WelcomeController.class
 com/workforcemgmt/WorkforcemgmtApplication.class
 com/workforcemgmt/model/Staff.class
 com/workforcemgmt/dto/CreateTaskRequest.class
