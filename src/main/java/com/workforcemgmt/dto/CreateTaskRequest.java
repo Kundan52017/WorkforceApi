@@ -1,6 +1,7 @@
 package com.workforcemgmt.dto;
 
 import com.workforcemgmt.model.Priority;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -8,25 +9,33 @@ import java.time.LocalDate;
 /**
  * DTO for creating new tasks
  */
+@Schema(description = "Request object for creating a new task")
 public class CreateTaskRequest {
     @NotBlank(message = "Title is required")
+    @Schema(description = "The task title", example = "Deliver package to customer", required = true)
     private String title;
     
+    @Schema(description = "Detailed description of the task", example = "Deliver urgent package to downtown office")
     private String description;
     
     @NotNull(message = "Priority is required")
+    @Schema(description = "Task priority level", example = "HIGH", required = true)
     private Priority priority;
     
     @NotNull(message = "Assigned staff ID is required")
+    @Schema(description = "ID of the staff member to assign this task", example = "staff-1", required = true)
     private String assignedStaffId;
     
     @NotNull(message = "Start date is required")
+    @Schema(description = "Task start date", example = "2025-08-03", required = true)
     private LocalDate startDate;
     
     @NotNull(message = "Due date is required")
+    @Schema(description = "Task due date", example = "2025-08-05", required = true)
     private LocalDate dueDate;
     
     @NotBlank(message = "Created by is required")
+    @Schema(description = "ID of the user creating this task", example = "manager-1", required = true)
     private String createdBy;
     
     private String customerReference;

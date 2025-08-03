@@ -16,6 +16,7 @@ com\workforcemgmt\dto\UpdatePriorityRequest.class
 com\workforcemgmt\controller\StaffController.class
 com\workforcemgmt\dto\TaskDetailsDto.class
 com\workforcemgmt\model\Task.class
+com\workforcemgmt\config\SwaggerConfig.class
 com\workforcemgmt\model\Comment.class
 com\workforcemgmt\model\Staff.class
 com\workforcemgmt\service\StaffService.class

@@ -6,6 +6,13 @@ import com.workforcemgmt.model.Priority;
 import com.workforcemgmt.model.Task;
 import com.workforcemgmt.model.TaskStatus;
 import com.workforcemgmt.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -21,6 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/tasks")
+@Tag(name = "Task Management", description = "APIs for managing workforce tasks, assignments, and operations")
 public class TaskController {
 
     private final TaskService taskService;
@@ -33,13 +41,29 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskRequest request) {
+    @Operation(summary = "Create a new task", 
+               description = "Creates a new task and assigns it to a staff member. Returns the created task details.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Task created successfully",
+                    content = @Content(schema = @Schema(implementation = TaskDto.class))),
+        @ApiResponse(responseCode = "400", description = "Invalid request data"),
+        @ApiResponse(responseCode = "404", description = "Staff member not found")
+    })
+    public ResponseEntity<TaskDto> createTask(
+            @Parameter(description = "Task creation request with all required details", required = true)
+            @Valid @RequestBody CreateTaskRequest request) {
         Task createdTask = taskService.createTask(request);
         TaskDto taskDto = taskMapper.taskToTaskDto(createdTask);
         return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
     }
 
     @GetMapping
+    @Operation(summary = "Get all tasks", 
+               description = "Retrieves a list of all tasks in the system")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Tasks retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = TaskDto.class)))
+    })
     public ResponseEntity<List<TaskDto>> getAllTasks() {
         List<Task> tasks = taskService.getAllTasks();
         List<TaskDto> taskDtos = taskMapper.tasksToTaskDtos(tasks);
@@ -70,9 +94,20 @@ public class TaskController {
      * Reassign task by customer reference - fixes Bug 1
      */
     @PostMapping("/assign-by-ref")
+    @Operation(summary = "Reassign task by customer reference", 
+               description = "BUG FIX 1: Reassigns a task to a new staff member using customer reference. " +
+                           "Properly cancels the old task and creates a new one to avoid duplicates.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Task reassigned successfully",
+                    content = @Content(schema = @Schema(implementation = TaskDto.class))),
+        @ApiResponse(responseCode = "404", description = "Task not found or staff member not found")
+    })
     public ResponseEntity<TaskDto> reassignTaskByCustomerReference(
+            @Parameter(description = "Customer reference to identify the task", required = true)
             @RequestParam String customerReference,
+            @Parameter(description = "ID of the new staff member to assign the task", required = true)
             @RequestParam String newStaffId,
+            @Parameter(description = "ID of the user performing the reassignment", required = true)
             @RequestParam String updatedBy) {
         Task reassignedTask = taskService.reassignTaskByCustomerReference(customerReference, newStaffId, updatedBy);
         TaskDto taskDto = taskMapper.taskToTaskDto(reassignedTask);
@@ -95,8 +130,17 @@ public class TaskController {
      * Smart daily task view - Feature 1
      */
     @GetMapping("/smart-daily")
+    @Operation(summary = "Get smart daily task view", 
+               description = "FEATURE 1: Enhanced daily view that shows tasks starting in the date range " +
+                           "PLUS active tasks that started before but are still open. Perfect for 'today's work' view.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Smart daily tasks retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = TaskDto.class)))
+    })
     public ResponseEntity<List<TaskDto>> getSmartDailyTasks(
+            @Parameter(description = "Start date for the range (ISO date format: YYYY-MM-DD)", required = true, example = "2025-08-03")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @Parameter(description = "End date for the range (ISO date format: YYYY-MM-DD)", required = true, example = "2025-08-03")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         List<Task> tasks = taskService.getSmartDailyTasks(startDate, endDate);
         List<TaskDto> taskDtos = taskMapper.tasksToTaskDtos(tasks);

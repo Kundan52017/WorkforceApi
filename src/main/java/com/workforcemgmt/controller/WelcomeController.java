@@ -1,5 +1,10 @@
 package com.workforcemgmt.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,9 +16,14 @@ import java.util.Map;
  * Welcome controller for the root endpoint
  */
 @RestController
+@Tag(name = "System", description = "System information and health check endpoints")
 public class WelcomeController {
 
     @GetMapping("/")
+    @Operation(summary = "API Welcome", 
+               description = "Returns welcome message and API information including available endpoints")
+    @ApiResponse(responseCode = "200", description = "Welcome information retrieved successfully",
+                content = @Content(schema = @Schema(implementation = Map.class)))
     public ResponseEntity<Map<String, Object>> welcome() {
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Welcome to Workforce Management API");
@@ -24,9 +34,12 @@ public class WelcomeController {
         endpoints.put("tasks", "/api/tasks");
         endpoints.put("staff", "/api/staff");
         endpoints.put("health", "/actuator/health");
+        endpoints.put("swagger-ui", "/swagger-ui/index.html");
+        endpoints.put("api-docs", "/v3/api-docs");
         
         response.put("endpoints", endpoints);
-        response.put("documentation", "Access /api/tasks for task management and /api/staff for staff management");
+        response.put("documentation", "Access /swagger-ui/index.html for interactive API documentation");
+        response.put("postman", "Import the Postman collection for testing: Workforce-Management-API.postman_collection.json");
         
         return ResponseEntity.ok(response);
     }

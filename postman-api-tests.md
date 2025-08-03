@@ -12,12 +12,21 @@ http://localhost:8080
 GET http://localhost:8080/
 Accept: application/json
 
-### 1.2 Health Check
+### 1.2 Basic Health Check (Simple endpoint)
 GET http://localhost:8080/health
 Accept: application/json
 
-### 1.3 Actuator Health (if enabled)
+### 1.3 Actuator Health Check (Detailed monitoring)
+# Note: Requires spring-boot-starter-actuator dependency
 GET http://localhost:8080/actuator/health
+Accept: application/json
+
+### 1.4 Application Info (Actuator)
+GET http://localhost:8080/actuator/info
+Accept: application/json
+
+### 1.5 Metrics Overview (Actuator)
+GET http://localhost:8080/actuator/metrics
 Accept: application/json
 
 ## ========================================
@@ -384,6 +393,31 @@ Content-Type: application/json
 6. Use Postman Collections to organize these requests
 7. Enable "Auto-follow redirects" in Postman settings
 8. Set environment variables for base URL and common IDs
+
+## ========================================
+## ACTUATOR HEALTH ENDPOINT TROUBLESHOOTING:
+## ========================================
+
+If you get a 404 error for /actuator/health, follow these steps:
+
+1. **Ensure Actuator Dependency is Added:**
+   - Gradle: `implementation 'org.springframework.boot:spring-boot-starter-actuator'`
+   - Maven: `<artifactId>spring-boot-starter-actuator</artifactId>`
+
+2. **Check application.properties Configuration:**
+   ```properties
+   management.endpoints.web.exposure.include=health,info,metrics
+   management.endpoint.health.show-details=always
+   management.health.defaults.enabled=true
+   ```
+
+3. **Restart the Application:**
+   ```bash
+   ./gradlew bootRun
+   ```
+
+4. **Alternative Basic Health Check:**
+   Use the custom health endpoint instead: `GET http://localhost:8080/health`
 
 ## ========================================
 ## EXPECTED RESPONSE CODES:

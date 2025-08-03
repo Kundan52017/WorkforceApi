@@ -1,0 +1,242 @@
+### Workforce Management API - Complete Test Suite
+### Use with VS Code REST Client extension
+### Base URL: http://localhost:8080
+
+##########################################
+## SYSTEM HEALTH & WELCOME
+##########################################
+
+### 1. Welcome Message
+GET http://localhost:8080/
+Accept: application/json
+
+### 2. Health Check (if enabled)
+GET http://localhost:8080/actuator/health
+Accept: application/json
+
+### 3. OpenAPI Specification
+GET http://localhost:8080/v3/api-docs
+Accept: application/json
+
+##########################################
+## STAFF MANAGEMENT
+##########################################
+
+### 4. Get All Staff
+GET http://localhost:8080/api/staff
+Accept: application/json
+
+### 5. Get Staff by ID
+GET http://localhost:8080/api/staff/staff-1
+Accept: application/json
+
+### 6. Create New Staff Member
+POST http://localhost:8080/api/staff
+Content-Type: application/json
+
+{
+  "id": "staff-5",
+  "name": "Alex Wilson",
+  "email": "alex.wilson@company.com",
+  "department": "Logistics",
+  "role": "Coordinator"
+}
+
+##########################################
+## TASK MANAGEMENT - BASIC CRUD
+##########################################
+
+### 7. Create New Task
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Process Customer Order #123",
+  "description": "Handle customer order and coordinate delivery",
+  "priority": "HIGH",
+  "assignedStaffId": "staff-1",
+  "startDate": "2025-08-03",
+  "dueDate": "2025-08-06",
+  "createdBy": "manager-1",
+  "customerReference": "CUST-123"
+}
+
+### 8. Get All Tasks
+GET http://localhost:8080/api/tasks
+Accept: application/json
+
+### 9. Get Task Details (replace {taskId} with actual ID from create response)
+GET http://localhost:8080/api/tasks/{{taskId}}
+Accept: application/json
+
+### 10. Update Task
+PUT http://localhost:8080/api/tasks/{{taskId}}
+Content-Type: application/json
+
+{
+  "title": "Process Customer Order #123 - Updated",
+  "description": "Handle customer order and coordinate delivery - Priority updated",
+  "priority": "MEDIUM",
+  "assignedStaffId": "staff-1",
+  "startDate": "2025-08-03",
+  "dueDate": "2025-08-06"
+}
+
+##########################################
+## BUG FIX DEMONSTRATIONS
+##########################################
+
+### 11. BUG FIX 1: Task Reassignment (No Duplicates)
+POST http://localhost:8080/api/tasks/assign-by-ref?customerReference=CUST-123&newStaffId=staff-2&updatedBy=manager-1
+Accept: application/json
+
+### 12. BUG FIX 2: Date Range Query (Excludes Cancelled Tasks)
+GET http://localhost:8080/api/tasks/date-range?startDate=2025-08-01&endDate=2025-08-10
+Accept: application/json
+
+##########################################
+## NEW FEATURE 1: SMART DAILY VIEW
+##########################################
+
+### 13. Smart Daily Tasks - Today's Work
+GET http://localhost:8080/api/tasks/smart-daily?startDate=2025-08-03&endDate=2025-08-03
+Accept: application/json
+
+### 14. Smart Daily Tasks - This Week
+GET http://localhost:8080/api/tasks/smart-daily?startDate=2025-08-01&endDate=2025-08-07
+Accept: application/json
+
+##########################################
+## NEW FEATURE 2: PRIORITY MANAGEMENT
+##########################################
+
+### 15. Update Task Priority
+PUT http://localhost:8080/api/tasks/{{taskId}}/priority
+Content-Type: application/json
+
+{
+  "priority": "HIGH",
+  "updatedBy": "manager-1"
+}
+
+### 16. Get Tasks by Priority - HIGH
+GET http://localhost:8080/api/tasks/priority/HIGH
+Accept: application/json
+
+### 17. Get Tasks by Priority - MEDIUM
+GET http://localhost:8080/api/tasks/priority/MEDIUM
+Accept: application/json
+
+### 18. Get Tasks by Priority - LOW
+GET http://localhost:8080/api/tasks/priority/LOW
+Accept: application/json
+
+##########################################
+## NEW FEATURE 3: COMMENTS & ACTIVITY
+##########################################
+
+### 19. Add Comment to Task
+POST http://localhost:8080/api/tasks/{{taskId}}/comments
+Content-Type: application/json
+
+{
+  "content": "Customer called to confirm delivery address. Updated to 123 Main Street.",
+  "userId": "staff-1",
+  "userName": "John Doe"
+}
+
+### 20. Add Another Comment
+POST http://localhost:8080/api/tasks/{{taskId}}/comments
+Content-Type: application/json
+
+{
+  "content": "Coordinated with logistics team. Delivery scheduled for tomorrow.",
+  "userId": "staff-2",
+  "userName": "Jane Smith"
+}
+
+### 21. Add Manager Comment
+POST http://localhost:8080/api/tasks/{{taskId}}/comments
+Content-Type: application/json
+
+{
+  "content": "Excellent work on this task. Customer is very satisfied.",
+  "userId": "manager-1",
+  "userName": "Manager Johnson"
+}
+
+##########################################
+## TASK STATUS MANAGEMENT
+##########################################
+
+### 22. Update Task Status to COMPLETED
+PUT http://localhost:8080/api/tasks/{{taskId}}/status?status=COMPLETED&updatedBy=staff-1
+Accept: application/json
+
+### 23. Update Task Status to CANCELLED
+PUT http://localhost:8080/api/tasks/{{taskId}}/status?status=CANCELLED&updatedBy=manager-1
+Accept: application/json
+
+### 24. Update Task Status back to ACTIVE
+PUT http://localhost:8080/api/tasks/{{taskId}}/status?status=ACTIVE&updatedBy=manager-1
+Accept: application/json
+
+##########################################
+## ERROR HANDLING TESTS
+##########################################
+
+### 25. Test Invalid Staff ID
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Test Invalid Staff",
+  "description": "This should fail",
+  "priority": "HIGH",
+  "assignedStaffId": "invalid-staff-id",
+  "startDate": "2025-08-03",
+  "dueDate": "2025-08-06",
+  "createdBy": "manager-1",
+  "customerReference": "INVALID-TEST"
+}
+
+### 26. Test Invalid Task ID
+GET http://localhost:8080/api/tasks/invalid-task-id
+Accept: application/json
+
+### 27. Test Invalid Priority
+PUT http://localhost:8080/api/tasks/{{taskId}}/priority
+Content-Type: application/json
+
+{
+  "priority": "INVALID_PRIORITY",
+  "updatedBy": "manager-1"
+}
+
+### 28. Test Missing Required Fields
+POST http://localhost:8080/api/tasks
+Content-Type: application/json
+
+{
+  "description": "Missing required fields"
+}
+
+##########################################
+## COMPREHENSIVE VERIFICATION
+##########################################
+
+### 29. Final Task Details Check (Full History)
+GET http://localhost:8080/api/tasks/{{taskId}}
+Accept: application/json
+
+### 30. Final All Tasks Overview
+GET http://localhost:8080/api/tasks
+Accept: application/json
+
+##########################################
+## Instructions:
+## 1. Start application: ./gradlew bootRun
+## 2. Replace {{taskId}} with actual task ID from responses
+## 3. Run tests in sequence for best results
+## 4. Check Swagger UI: http://localhost:8080/swagger-ui/index.html
+##########################################
