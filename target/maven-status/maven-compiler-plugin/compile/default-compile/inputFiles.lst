@@ -12,6 +12,7 @@ D:\WorkforceAPI\src\main\java\com\workforcemgmt\exception\GlobalExceptionHandler
 D:\WorkforceAPI\src\main\java\com\workforcemgmt\mapper\TaskMapper.java
 D:\WorkforceAPI\src\main\java\com\workforcemgmt\service\TaskService.java
 D:\WorkforceAPI\src\main\java\com\workforcemgmt\controller\TaskController.java
+D:\WorkforceAPI\src\main\java\com\workforcemgmt\config\CorsConfig.java
 D:\WorkforceAPI\src\main\java\com\workforcemgmt\dto\UpdatePriorityRequest.java
 D:\WorkforceAPI\src\main\java\com\workforcemgmt\model\TaskStatus.java
 D:\WorkforceAPI\src\main\java\com\workforcemgmt\controller\WelcomeController.java

@@ -12,3 +12,4 @@ public class WorkforcemgmtApplication {
         SpringApplication.run(WorkforcemgmtApplication.class, args);
     }
 }
+

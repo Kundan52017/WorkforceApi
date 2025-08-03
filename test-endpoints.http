@@ -7,15 +7,15 @@
 ##########################################
 
 ### 1. Welcome Message
-GET http://localhost:8080/
+GET http://localhost:8081/
 Accept: application/json
 
 ### 2. Health Check (if enabled)
-GET http://localhost:8080/actuator/health
+GET http://localhost:8081/actuator/health
 Accept: application/json
 
 ### 3. OpenAPI Specification
-GET http://localhost:8080/v3/api-docs
+GET http://localhost:8081/v3/api-docs
 Accept: application/json
 
 ##########################################
@@ -23,15 +23,15 @@ Accept: application/json
 ##########################################
 
 ### 4. Get All Staff
-GET http://localhost:8080/api/staff
+GET http://localhost:8081/api/staff
 Accept: application/json
 
 ### 5. Get Staff by ID
-GET http://localhost:8080/api/staff/staff-1
+GET http://localhost:8081/api/staff/staff-1
 Accept: application/json
 
 ### 6. Create New Staff Member
-POST http://localhost:8080/api/staff
+POST http://localhost:8081/api/staff
 Content-Type: application/json
 
 {
@@ -47,7 +47,7 @@ Content-Type: application/json
 ##########################################
 
 ### 7. Create New Task
-POST http://localhost:8080/api/tasks
+POST http://localhost:8081/api/tasks
 Content-Type: application/json
 
 {
@@ -62,15 +62,15 @@ Content-Type: application/json
 }
 
 ### 8. Get All Tasks
-GET http://localhost:8080/api/tasks
+GET http://localhost:8081/api/tasks
 Accept: application/json
 
 ### 9. Get Task Details (replace {taskId} with actual ID from create response)
-GET http://localhost:8080/api/tasks/{{taskId}}
+GET http://localhost:8081/api/tasks/{{taskId}}
 Accept: application/json
 
 ### 10. Update Task
-PUT http://localhost:8080/api/tasks/{{taskId}}
+PUT http://localhost:8081/api/tasks/{{taskId}}
 Content-Type: application/json
 
 {
@@ -87,11 +87,11 @@ Content-Type: application/json
 ##########################################
 
 ### 11. BUG FIX 1: Task Reassignment (No Duplicates)
-POST http://localhost:8080/api/tasks/assign-by-ref?customerReference=CUST-123&newStaffId=staff-2&updatedBy=manager-1
+POST http://localhost:8081/api/tasks/assign-by-ref?customerReference=CUST-123&newStaffId=staff-2&updatedBy=manager-1
 Accept: application/json
 
 ### 12. BUG FIX 2: Date Range Query (Excludes Cancelled Tasks)
-GET http://localhost:8080/api/tasks/date-range?startDate=2025-08-01&endDate=2025-08-10
+GET http://localhost:8081/api/tasks/date-range?startDate=2025-08-01&endDate=2025-08-10
 Accept: application/json
 
 ##########################################
@@ -99,11 +99,11 @@ Accept: application/json
 ##########################################
 
 ### 13. Smart Daily Tasks - Today's Work
-GET http://localhost:8080/api/tasks/smart-daily?startDate=2025-08-03&endDate=2025-08-03
+GET http://localhost:8081/api/tasks/smart-daily?startDate=2025-08-03&endDate=2025-08-03
 Accept: application/json
 
 ### 14. Smart Daily Tasks - This Week
-GET http://localhost:8080/api/tasks/smart-daily?startDate=2025-08-01&endDate=2025-08-07
+GET http://localhost:8081/api/tasks/smart-daily?startDate=2025-08-01&endDate=2025-08-07
 Accept: application/json
 
 ##########################################
@@ -111,7 +111,7 @@ Accept: application/json
 ##########################################
 
 ### 15. Update Task Priority
-PUT http://localhost:8080/api/tasks/{{taskId}}/priority
+PUT http://localhost:8081/api/tasks/{{taskId}}/priority
 Content-Type: application/json
 
 {
@@ -120,15 +120,15 @@ Content-Type: application/json
 }
 
 ### 16. Get Tasks by Priority - HIGH
-GET http://localhost:8080/api/tasks/priority/HIGH
+GET http://localhost:8081/api/tasks/priority/HIGH
 Accept: application/json
 
 ### 17. Get Tasks by Priority - MEDIUM
-GET http://localhost:8080/api/tasks/priority/MEDIUM
+GET http://localhost:8081/api/tasks/priority/MEDIUM
 Accept: application/json
 
 ### 18. Get Tasks by Priority - LOW
-GET http://localhost:8080/api/tasks/priority/LOW
+GET http://localhost:8081/api/tasks/priority/LOW
 Accept: application/json
 
 ##########################################
@@ -136,7 +136,7 @@ Accept: application/json
 ##########################################
 
 ### 19. Add Comment to Task
-POST http://localhost:8080/api/tasks/{{taskId}}/comments
+POST http://localhost:8081/api/tasks/{{taskId}}/comments
 Content-Type: application/json
 
 {
@@ -146,7 +146,7 @@ Content-Type: application/json
 }
 
 ### 20. Add Another Comment
-POST http://localhost:8080/api/tasks/{{taskId}}/comments
+POST http://localhost:8081/api/tasks/{{taskId}}/comments
 Content-Type: application/json
 
 {
@@ -156,7 +156,7 @@ Content-Type: application/json
 }
 
 ### 21. Add Manager Comment
-POST http://localhost:8080/api/tasks/{{taskId}}/comments
+POST http://localhost:8081/api/tasks/{{taskId}}/comments
 Content-Type: application/json
 
 {
@@ -170,15 +170,15 @@ Content-Type: application/json
 ##########################################
 
 ### 22. Update Task Status to COMPLETED
-PUT http://localhost:8080/api/tasks/{{taskId}}/status?status=COMPLETED&updatedBy=staff-1
+PUT http://localhost:8081/api/tasks/{{taskId}}/status?status=COMPLETED&updatedBy=staff-1
 Accept: application/json
 
 ### 23. Update Task Status to CANCELLED
-PUT http://localhost:8080/api/tasks/{{taskId}}/status?status=CANCELLED&updatedBy=manager-1
+PUT http://localhost:8081/api/tasks/{{taskId}}/status?status=CANCELLED&updatedBy=manager-1
 Accept: application/json
 
 ### 24. Update Task Status back to ACTIVE
-PUT http://localhost:8080/api/tasks/{{taskId}}/status?status=ACTIVE&updatedBy=manager-1
+PUT http://localhost:8081/api/tasks/{{taskId}}/status?status=ACTIVE&updatedBy=manager-1
 Accept: application/json
 
 ##########################################
@@ -186,7 +186,7 @@ Accept: application/json
 ##########################################
 
 ### 25. Test Invalid Staff ID
-POST http://localhost:8080/api/tasks
+POST http://localhost:8081/api/tasks
 Content-Type: application/json
 
 {
@@ -201,11 +201,11 @@ Content-Type: application/json
 }
 
 ### 26. Test Invalid Task ID
-GET http://localhost:8080/api/tasks/invalid-task-id
+GET http://localhost:8081/api/tasks/invalid-task-id
 Accept: application/json
 
 ### 27. Test Invalid Priority
-PUT http://localhost:8080/api/tasks/{{taskId}}/priority
+PUT http://localhost:8081/api/tasks/{{taskId}}/priority
 Content-Type: application/json
 
 {
@@ -214,7 +214,7 @@ Content-Type: application/json
 }
 
 ### 28. Test Missing Required Fields
-POST http://localhost:8080/api/tasks
+POST http://localhost:8081/api/tasks
 Content-Type: application/json
 
 {
@@ -226,11 +226,11 @@ Content-Type: application/json
 ##########################################
 
 ### 29. Final Task Details Check (Full History)
-GET http://localhost:8080/api/tasks/{{taskId}}
+GET http://localhost:8081/api/tasks/{{taskId}}
 Accept: application/json
 
 ### 30. Final All Tasks Overview
-GET http://localhost:8080/api/tasks
+GET http://localhost:8081/api/tasks
 Accept: application/json
 
 ##########################################
@@ -238,5 +238,5 @@ Accept: application/json
 ## 1. Start application: ./gradlew bootRun
 ## 2. Replace {{taskId}} with actual task ID from responses
 ## 3. Run tests in sequence for best results
-## 4. Check Swagger UI: http://localhost:8080/swagger-ui/index.html
+## 4. Check Swagger UI: http://localhost:8081/swagger-ui/index.html
 ##########################################

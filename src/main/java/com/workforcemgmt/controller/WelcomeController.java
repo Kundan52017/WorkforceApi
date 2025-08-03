@@ -1,8 +1,6 @@
 package com.workforcemgmt.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Welcome controller for the root endpoint
- */
 @RestController
 @Tag(name = "System", description = "System information and health check endpoints")
 public class WelcomeController {
 
     @GetMapping("/")
-    @Operation(summary = "API Welcome", 
-               description = "Returns welcome message and API information including available endpoints")
-    @ApiResponse(responseCode = "200", description = "Welcome information retrieved successfully",
-                content = @Content(schema = @Schema(implementation = Map.class)))
+    @Operation(summary = "API Welcome")
+    @ApiResponse(responseCode = "200", description = "Welcome information retrieved successfully")
     public ResponseEntity<Map<String, Object>> welcome() {
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Welcome to Workforce Management API");
@@ -45,6 +38,8 @@ public class WelcomeController {
     }
 
     @GetMapping("/health")
+    @Operation(summary = "Basic health check")
+    @ApiResponse(responseCode = "200", description = "Health status retrieved successfully")
     public ResponseEntity<Map<String, String>> health() {
         Map<String, String> response = new HashMap<>();
         response.put("status", "UP");

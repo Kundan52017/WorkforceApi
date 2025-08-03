@@ -1,3 +1,4 @@
+com\workforcemgmt\config\CorsConfig.class
 com\workforcemgmt\controller\TaskController.class
 com\workforcemgmt\dto\CreateTaskRequest.class
 com\workforcemgmt\controller\WelcomeController.class

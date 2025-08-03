@@ -3,7 +3,6 @@ package com.workforcemgmt.service;
 import com.workforcemgmt.dto.CreateTaskRequest;
 import com.workforcemgmt.exception.ResourceNotFoundException;
 import com.workforcemgmt.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,7 +19,6 @@ public class TaskService {
     private final Map<String, Task> taskStorage = new ConcurrentHashMap<>();
     private final StaffService staffService;
 
-    @Autowired
     public TaskService(StaffService staffService) {
         this.staffService = staffService;
     }

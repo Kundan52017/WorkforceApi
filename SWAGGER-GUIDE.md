@@ -4,9 +4,9 @@
 
 Once your application is running, you can access the interactive API documentation at:
 
-**🌐 Swagger UI:** http://localhost:8080/swagger-ui/index.html
+**🌐 Swagger UI:** http://localhost:8081/swagger-ui/index.html
 
-**📄 OpenAPI Spec:** http://localhost:8080/v3/api-docs
+**📄 OpenAPI Spec:** http://localhost:8081/v3/api-docs
 
 ## 🎯 **What's New with Swagger Integration**
 
@@ -38,18 +38,18 @@ Once your application is running, you can access the interactive API documentati
 
 ### **1. Start the Application**
 
-**Using Maven:**
-```powershell
-mvn spring-boot:run
-```
-
-**Using Gradle:**
+**Using Gradle (Primary):**
 ```powershell
 .\gradlew.bat bootRun
 ```
 
+**Using Maven (Alternative):**
+```powershell
+mvn spring-boot:run
+```
+
 ### **2. Open Swagger UI**
-Navigate to: http://localhost:8080/swagger-ui/index.html
+Navigate to: http://localhost:8081/swagger-ui/index.html
 
 ### **3. Test Endpoints**
 1. **Expand any endpoint** to see details
@@ -99,7 +99,7 @@ Navigate to: http://localhost:8080/swagger-ui/index.html
    - Import: `Workforce-Management-API.postman_collection.json`
 
 2. **Method 2**: Generate from Swagger
-   - Copy OpenAPI spec from: http://localhost:8080/v3/api-docs
+   - Copy OpenAPI spec from: http://localhost:8081/v3/api-docs
    - Import into Postman as OpenAPI 3.0 spec
 
 ## 🌟 **Key Benefits**
@@ -131,4 +131,4 @@ Your Workforce Management API now has:
 - ✅ **Postman-Ready Endpoints**
 - 🛡️ **Zero Breaking Changes**
 
-**Start exploring:** http://localhost:8080/swagger-ui/index.html
+**Start exploring:** http://localhost:8081/swagger-ui/index.html
