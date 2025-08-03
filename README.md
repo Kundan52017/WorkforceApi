@@ -5,8 +5,8 @@ A comprehensive Spring Boot REST API for managing workforce tasks, staff assignm
 ## 🎯 Project Submission Summary
 
 ### ✅ **100% Complete & Deployed**
-- **GitHub Repository**: https://github.com/Kundan52017/WorkforceApi
-- **Live Demo Videos**: Google Drive submissions completed
+- **GitHub Repository**:(https://github.com/Kundan52017/WorkforceApi)
+- **Live Demo Videos**: Google Drive submissions completed-link->(https://drive.google.com/drive/folders/14aNkwe9Ks41jieT-ZkCohgca1uLiDQl0?usp=sharing)
 - **Interactive Documentation**: Full Swagger UI implementation
 - **Postman Ready**: Complete collection with all endpoints
 - **Production Quality**: Clean code, comprehensive testing, enterprise patterns
